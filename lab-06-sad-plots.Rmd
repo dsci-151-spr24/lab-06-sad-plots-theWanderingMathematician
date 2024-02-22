@@ -191,11 +191,41 @@ knitr::include_graphics("img/fisheries.png")
 
 Load the data.
 
-```{r load-data-fisheries, eval = FALSE}
+```{r load-data-fisheries, eval = TRUE}
 fisheries <- read_csv("data/fisheries.csv")
 ```
 
+- *For one, it would be better to not write out the graph as a line plot (or a fill plot), since this implies some sort of order and connection between the different values along the x-axis, while the list of countries doesn't actually have any intrinsic order.*
+- *Also, pie charts are really hard to read, especially with so many smaller entries in them, perhaps replace these with bar charts?*
+- *The threshold for inclusion in the visualisation should be raised, since most of the data in the graphs are completely unreadable due to how small they are in comparison to the rest. If, instead, you want to show more countries, it would probably be better to remove the major outliers (especially China).*
+- *If you're going to use charts with some sort of an order, you should sort each chart by either a factor that is important in all charts or by a different factor if they don't have the same order.*
+- *Some informative labels on the graph would be useful.*
+- *Have some sort of a part of the data that is being focused on, not just the general, not-especially focused visualisations here.*
+
 5.  Create a new data visualisation for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).
+
+```{r}
+fisheries %>%
+  filter(total >= 1000000) %>%
+  mutate(country = fct_reorder(country, total)) %>%
+  ggplot(aes(x = total)) +
+  geom_density(fill = "#9ecae1") +
+  theme(legend.position = "none") +
+  labs(title = "Distribution of countries", subtitle = "by total amount of caught fish", x = "", y = "")
+
+fisheries %>%
+  filter(total >= 1000000, total <= 10000000) %>%
+  mutate(country = fct_reorder(country, total)) %>%
+  select(-total) %>%
+  pivot_longer(-country, names_to = "type") %>%
+  ggplot(aes(y = country, x = value, fill = type)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ type) +
+  theme(legend.position = "none") +
+  scale_fill_manual(values = c("#71b6c4","#9ecae1")) +
+  labs(title = "Aquaculture vs. capture fish supply", subtitle = "in countries with between 1 and 10 million tons of caught fish", x = "", y = "")
+
+```
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
 
