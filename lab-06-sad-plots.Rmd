@@ -161,6 +161,7 @@ staff_long %>%
 
 
 ```{r fig.width = 10, fig.fullwidth = TRUE}
+#| label: faculty-graph-remake
 staff_long %>%
   ggplot(aes(x = year, y = value, group = faculty_type, colour = faculty_type)) +
   geom_line() +
@@ -205,6 +206,7 @@ fisheries <- read_csv("data/fisheries.csv")
 5.  Create a new data visualisation for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).
 
 ```{r}
+#| label: fisheries-plot-remake
 fisheries %>%
   filter(total >= 1000000) %>%
   mutate(country = fct_reorder(country, total)) %>%
