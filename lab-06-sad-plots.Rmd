@@ -145,10 +145,31 @@ staff_long %>%
 1.  Include the line plot you made above in your report and make sure the figure width is large enough to make it legible.
     Also fix the title, axis labels, and legend label.
 
+```{r fig.width = 10, fig.fullwidth = TRUE}
+staff_long %>%
+  ggplot(aes(x = year, y = value, group = faculty_type, colour = faculty_type)) +
+  geom_line() +
+  labs(title = "Trends in faculty hiring in the USA from 1975 to 2011", subtitle = "according to data from the American Association of University Professors", x = "", y = "", colour = "Faculty type")
+```
+
 2.  Suppose the objective of this plot was to show that the proportion of part-time faculty have gone up over time compared to other instructional staff types.
     What changes would you propose making to this plot to tell this story and why.
+    
+- *To highlight the fact that, unlike other instructional staff types, the proportion of part-time faculty members has increased, I would probably colour all the lines the same colour, except for the line for part-time faculty members, which would be a brighter colour, so that it would stand out against the others, and change the subtitle to note the new emphasis of the plot.*
 
 3.  Implement the changes you proposed in the previous exercise.
+
+
+```{r fig.width = 10, fig.fullwidth = TRUE}
+staff_long %>%
+  ggplot(aes(x = year, y = value, group = faculty_type, colour = faculty_type)) +
+  geom_line() +
+  labs(title = "Trends in faculty hiring in the USA from 1975 to 2011", subtitle = "Full-time vs. part-time faculty", x = "", y = "", colour = "Faculty type") +
+  scale_colour_manual(values = c(rep("gray33", 4), "red")) +
+  theme_minimal()
+```
+
+- *note: I also changed the theme of the graph to make the data more easily visible, so it wouldn't be grey lines on a grey background.*
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
